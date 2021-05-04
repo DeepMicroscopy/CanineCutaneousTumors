@@ -19,7 +19,7 @@ class SlideContainer:
         self.polygons = sorted(polygons, key=lambda p: p['hierarchy'])
         if dataset_type == "classification":
             self.polygons = [poly for poly in self.polygons if poly["category_id"] >= 7]
-        self.labels = set([poly["category_id"] for poly in self.polygons])
+        self.labels = list(set([poly["category_id"] for poly in self.polygons]))
         self.slide = openslide.open_slide(str(file))
         thumbnail = cv2.cvtColor(
             np.array(self.slide.read_region((0, 0), self.slide.level_count - 1, self.slide.level_dimensions[-1]))[:, :,
@@ -91,7 +91,7 @@ class SlideContainer:
         found = False
         while not found:
             iter = 0
-            label = random.choice(list(self.labels))
+            label = random.choice(self.labels)
             polygon = random.choice([poly for poly in self.polygons if poly["category_id"] == label])
             coordinates = np.array(polygon['segmentation']).reshape((-1, 2))
             minx, miny, xrange, yrange = polygon["bbox"]

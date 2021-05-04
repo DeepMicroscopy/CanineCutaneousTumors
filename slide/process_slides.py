@@ -20,7 +20,7 @@ def load_slides(patch_size=256, label_dict=None, level = None, target_folder=Non
     container = []
 
     for path, subdirs, files in os.walk(target_folder):
-        for name in tqdm(files[:5]):
+        for name in tqdm(files):
             if fnmatch(name, pattern):
                 container.append(SlideContainer(Path(os.path.join(path, name)),annotation_file,level, patch_size, patch_size, dataset_type=dataset_type, label_dict = label_dict))
     return container
