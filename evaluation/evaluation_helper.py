@@ -5,7 +5,7 @@ import h5py
 from torchvision import transforms
 from fastai.vision import *
 import cv2
-from sklearn.metrics import jaccard_score
+from sklearn.metrics import jaccard_score, confusion_matrix
 
 
 def wsi_inference(slide_container, device, patch_size_s, patch_size_c,level_s,level_c, batch_size, segmentation_learner, classification_learner):
@@ -74,7 +74,31 @@ def wsi_inference(slide_container, device, patch_size_s, patch_size_c,level_s,le
     segmentation_store.close()
     classification_store.close()
 
-def slide_jaccard_score(slide_container, classes, labels):
+def jaccard_score(cm_matrix, labels):
+    ious = np.zeros((len(labels)))
+    ious[:] = np.NAN
+    total = cm_matrix.sum()
+    tp = np.diagonal(cm_matrix)
+    posPred = cm_matrix.sum(axis=0)
+    posGt = cm_matrix.sum(axis=1)
+
+    # Check which classes have elements
+    valid = posGt > 0
+    iousValid = np.logical_and(valid, posGt + posPred - tp > 0)
+
+    # Compute per-class results
+    ious[iousValid] = np.divide(tp[iousValid], posGt[iousValid] + posPred[iousValid] - tp[iousValid])
+    freqs = np.divide(posGt, total)
+
+    # Compute evaluation metrics
+    miou = np.mean(ious[iousValid])
+    fwiou = np.sum(np.multiply(ious[iousValid], freqs[iousValid]))
+
+    print("IoUs: ", dict(zip(np.array(labels)[iousValid], np.round(ious[iousValid],4))), "Mean: ", miou)
+    print("Frequency-Weighted IoU: ", np.round(fwiou,4))
+
+
+def slide_cm_matrix(slide_container, classes):
     try:
         prediction = h5py.File("{}_segmentation.hdf5".format(slide_container.file.stem), "r")
     except:
@@ -92,8 +116,8 @@ def slide_jaccard_score(slide_container, classes, labels):
                               :3], cv2.COLOR_RGB2GRAY) > slide_container.white
     excluded = (gt == -1)
     gt[np.logical_and(white_mask, excluded)] = 0
-    wsi_jaccard = jaccard_score(gt.flatten(),np.array(prediction["results"]).flatten(),labels=range(classes),average=None)
-    print("Jaccard Scores: ", dict(zip(labels, np.round(wsi_jaccard, 4))))
+    cm = confusion_matrix(gt.flatten(),np.array(prediction["results"]).flatten(),labels=range(classes))
+    return cm
 
 def slide_accuracy(slide_container, labels):
     try:
@@ -107,5 +131,7 @@ def slide_accuracy(slide_container, labels):
     counts = np.round(counts / np.sum(counts), 4)
     print("Classification Accuracies: ", dict(zip(np.array(labels)[np.array(tumors-1, dtype=int)], counts)))
     print("Slide Classification: ", np.array(labels)[int(tumors[np.argmax(counts)] - 1)] )
+
+
 
 
