@@ -1,0 +1,12 @@
+Shapely==1.7.1
+opencv_python_headless==4.4.0.46
+pandas==1.1.2
+torchvision==0.7.0+cu101
+fastai==1.0.61
+numpy==1.17.3
+h5py==2.10.0
+openslide_python==1.1.2
+tqdm==4.49.0
+EXCAT_Sync==0.0.16
+scikit_learn==0.24.2
+SlideRunner==2.0
