@@ -3,7 +3,9 @@
 This repository contains code examples for working with our publicly available dataset on microscopicwhole slide images 
 (WSIs) of canine cutaneous tumors. The dataset can be downloaded via the website of The Cancer Imaging Atlas: .
 
-![Dataset](canine_cutaneous.JPG)
+<p float="left">
+  <img src="canine_cutaneous.JPG" width="500" alt="Dataset"/>
+</p>
 
 ## Tissue Segmentation
 We provide two Jupyter notebooks for training and applying a segmentation network to the dataset:
@@ -23,9 +25,9 @@ We provide a Jupyter notebook for WSI inference and performance evaluation:
 We provide two SlideRunner PlugIns for visualization of the [segmentation](plugins/wsi_segmentation.py) and 
 [classification](plugins/wsi_classification.py) results.
 
-<p align="middle">
-  <img src="segmentation_pred.png" width="150" alt="Segmentation prediction"/>
-  <img src="classification_pred.png.png" width="150" alt="Classification prediction"/> 
+<p float="left">
+  <img src="segmentation_pred.png" width="300" alt="Segmentation prediction"/>
+  <img src="classification_pred.png" width="300" alt="Classification prediction"/> 
 </p>
 
 
