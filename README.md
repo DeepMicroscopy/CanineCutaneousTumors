@@ -23,7 +23,11 @@ We provide a Jupyter notebook for WSI inference and performance evaluation:
 We provide two SlideRunner PlugIns for visualization of the [segmentation](plugins/wsi_segmentation.py) and 
 [classification](plugins/wsi_classification.py) results.
 
-![Segmentation Prediction](segmentation_pred.png)  |  ![Classification Prediction](classification_pred.png)
+<p align="middle">
+  <img src="segmentation_pred.png" width="150" alt="Segmentation prediction"/>
+  <img src="classification_pred.png.png" width="150" alt="Classification prediction"/> 
+</p>
+
 
 ## Pre-trained models
 We provide two pre-trained models for patch segmentation and classification. These can be found in the 
