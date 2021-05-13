@@ -14,15 +14,15 @@ We provide two Jupyter notebooks for training and applying a segmentation networ
 
 ## Tumor Classification
 We provide two Jupyter notebooks for training and applying a classification network to the dataset:
-* Training: [classification_training.ipynb](classification/segmentation_training.ipynb)
-* Inference: [classification_inference.ipynb](classification/segmentation_inference.ipynb)
+* Training: [classification_training.ipynb](classification/classification_training.ipynb)
+* Inference: [classification_inference.ipynb](classification/classification_inference.ipynb)
 
 ## Slide Inference
 We provide a Jupyter notebook for WSI inference and performance evaluation:
 * [slide_inference.ipynb](evaluation/slide_inference.ipynb) 
 
 ## Visualization
-We provide two SlideRunner PlugIns for visualization of the [segmentation](plugins/wsi_segmentation.py) and 
+We provide two [SlideRunner](https://github.com/DeepPathology/SlideRunner) PlugIns for visualization of the [segmentation](plugins/wsi_segmentation.py) and 
 [classification](plugins/wsi_classification.py) results.
 
 <p float="left">
