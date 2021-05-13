@@ -1,11 +1,10 @@
 import sys
 sys.path.insert(0, '../')
-from slide.slide_container import SlideContainer
 import h5py
 from torchvision import transforms
 from fastai.vision import *
 import cv2
-from sklearn.metrics import jaccard_score, confusion_matrix
+from sklearn.metrics import confusion_matrix
 
 
 def wsi_inference(slide_container, device, patch_size_s, patch_size_c,level_s,level_c, batch_size, segmentation_learner, classification_learner):
