@@ -15,8 +15,7 @@ class SlideContainer:
             data = json.load(f)
             self.tissue_classes = dict(zip([cat["name"] for cat in data["categories"]],[cat["id"] for cat in data["categories"]]))
             image_id = [i["id"] for i in data["images"] if i["file_name"] == file.name][0]
-            polygons = [anno for anno in data['annotations'] if anno["image_id"] == image_id]
-        self.polygons = sorted(polygons, key=lambda p: p['hierarchy'])
+            self.polygons = [anno for anno in data['annotations'] if anno["image_id"] == image_id]
         if dataset_type == "classification":
             self.polygons = [poly for poly in self.polygons if poly["category_id"] >= 7]
         self.labels = list(set([poly["category_id"] for poly in self.polygons]))

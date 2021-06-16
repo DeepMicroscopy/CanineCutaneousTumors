@@ -110,8 +110,7 @@ def create_annotation(polygon, image_id, annotation_id, is_crowd):
         'category_id': polygon["Label"],
         'id': annotation_id,
         'bbox': bbox,
-        'area': area,
-        'hierarchy': polygon["Hierarchy"]
+        'area': area
     }
 
     return annotation
@@ -163,6 +162,7 @@ def polys_from_sql(database):
                     poly_list[id] = poly
 
         get_polygon_hierarchy(poly_list)
+        poly_list = dict(sorted(poly_list.items(), key=lambda x: x[1]['Hierarchy']))
 
         for id, poly in poly_list.items():
             area = get_polygon_area(poly_list, poly)

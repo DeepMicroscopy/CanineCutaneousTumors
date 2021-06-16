@@ -116,8 +116,7 @@ def create_annotation(polygon, image_id, annotation_id, is_crowd):
         'category_id': polygon["Label"],
         'id': annotation_id,
         'bbox': bbox,
-        'area': area,
-        'hierarchy': polygon["Hierarchy"]
+        'area': area
     }
 
     return annotation
@@ -181,12 +180,10 @@ def polys_from_exact(configuration):
                 poly_list[annotation.id] = poly
 
             get_polygon_hierarchy(poly_list)
+            poly_list = dict(sorted(poly_list.items(), key=lambda x: x[1]['Hierarchy']))
 
             for id, poly in poly_list.items():
-                try:
-                    area = get_polygon_area(poly_list, poly)
-                except:
-                    print(poly["Label"])
+                area = get_polygon_area(poly_list, poly)
                 poly["Area"] = area
                 anno_list.append(create_annotation(poly, image_id, annotation_id, is_crowd))
                 annotation_id += 1
