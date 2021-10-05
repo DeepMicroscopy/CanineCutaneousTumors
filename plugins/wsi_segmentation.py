@@ -72,8 +72,8 @@ class Plugin(SlideRunnerPlugin.SlideRunnerPlugin):
             if (fileChanged):
                 self.resultsArchive = h5py.File(oldArchive, "r")
                 self.factor = 64
-                self.ds = int(np.round(self.factor / (self.slideObj.dimensions[0] / self.resultsArchive["results"].shape[1])))
-                self.downsampledMap = self.resultsArchive["results"][::self.ds,::self.ds]
+                self.ds = int(np.round(self.factor / (self.slideObj.dimensions[0] / self.resultsArchive["segmentation"].shape[1])))
+                self.downsampledMap = self.resultsArchive["segmentation"][::self.ds,::self.ds]
 
                 self.scaleX = ((job.coordinates[2]) / job.currentImage.shape[1])
                 self.scaleY = ((job.coordinates[3]) / job.currentImage.shape[0])

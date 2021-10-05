@@ -76,8 +76,11 @@ class Plugin(SlideRunnerPlugin.SlideRunnerPlugin):
 
             if (fileChanged):
                 self.resultsArchive = h5py.File(oldArchive, "r")
-                self.downsampledMap = self.resultsArchive["results"]
-                self.factor = int(self.slideObj.dimensions[0] / self.resultsArchive["results"].shape[1])
+                if self.resultsArchive.keys().__contains__("filtered"):
+                    self.downsampledMap = self.resultsArchive["filtered"]
+                else:
+                    self.downsampledMap = self.resultsArchive["classification"]
+                self.factor = int(self.slideObj.dimensions[0] / self.downsampledMap.shape[1])
                 self.scaleX = ((job.coordinates[2]) / job.currentImage.shape[1])
                 self.scaleY = ((job.coordinates[3]) / job.currentImage.shape[0])
                 print('Opened results container.')
