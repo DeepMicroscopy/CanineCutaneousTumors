@@ -10,8 +10,8 @@ class FocalLoss(nn.modules.loss._WeightedLoss):
         self.ignore_index = ignore_index
         self.weight = weight
 
-    def forward(self, input, target):
-        ce_loss = F.cross_entropy(input, target, reduction='none', weight=self.weight,ignore_index=self.ignore_index)
+    def forward(self, output, target):
+        ce_loss = F.cross_entropy(output, target, reduction='none', weight=self.weight,ignore_index=self.ignore_index)
         if self.reduction == 'sum':
             ce_loss = ce_loss.sum()
         else:
@@ -27,10 +27,10 @@ class DiceLoss(nn.modules.loss._WeightedLoss):
         self.ignore_index = ignore_index
         self.weight = weight
 
-    def forward(self, input, target):
+    def forward(self, output, target):
         eps = 0.0001
-        input = torch.softmax(input, dim=1)
-        encoded_target = input.detach() * 0
+        output = torch.softmax(output, dim=1)
+        encoded_target = output.detach() * 0
         if self.ignore_index is not None:
             mask = target == self.ignore_index
             target = target.clone()
@@ -43,9 +43,9 @@ class DiceLoss(nn.modules.loss._WeightedLoss):
         if self.weight is None:
             weights = 1
 
-        intersection = input * encoded_target
+        intersection = output * encoded_target
         numerator = intersection.sum(0)
-        denominator = input + encoded_target
+        denominator = output + encoded_target
 
         if self.ignore_index is not None:
             denominator[mask] = 0
