@@ -70,7 +70,7 @@ if __name__ == '__main__':
     target_folder = Path("E:/Slides/Canine Skin Tumors")
 
     # Define annotation path
-    annotation_file = "canine_cutaneous_tumors_before.json"
+    annotation_file = "canine_cutaneous_tumors.json"
 
     # Conversion
     convert(target_folder, annotation_file)
