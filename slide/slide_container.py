@@ -16,9 +16,11 @@ class SlideContainer:
             self.tissue_classes = dict(zip([cat["name"] for cat in data["categories"]],[cat["id"] for cat in data["categories"]]))
             image_id = [i["id"] for i in data["images"] if i["file_name"] == file.name][0]
             self.polygons = [anno for anno in data['annotations'] if anno["image_id"] == image_id]
-        if dataset_type == "classification":
-            self.polygons = [poly for poly in self.polygons if poly["category_id"] >= 7]
-        self.labels = list(set([poly["category_id"] for poly in self.polygons]))
+        self.labels = set([poly["category_id"] for poly in self.polygons])
+        self.labels.discard(self.tissue_classes["Bone"])
+        self.labels.discard(self.tissue_classes["Cartilage"])
+        self.training_dict = dict.fromkeys(list(self.labels))
+        self.probabilities = dict.fromkeys(list(self.labels), 1 / len(list(self.labels)))
         self.slide = openslide.open_slide(str(file))
         thumbnail = cv2.cvtColor(
             np.array(self.slide.read_region((0, 0), self.slide.level_count - 1, self.slide.level_dimensions[-1]))[:, :,
@@ -80,6 +82,7 @@ class SlideContainer:
         return y_patch
 
     def get_new_train_coordinates(self):
+        inv_map = {v: k for k, v in self.tissue_classes.items()}
         # use passed sampling method
         if callable(self.sample_func):
             return self.sample_func(self.polygons, **{"classes":self.labels ,"size": self.shape,
@@ -90,7 +93,7 @@ class SlideContainer:
         found = False
         while not found:
             iter = 0
-            label = random.choice(self.labels)
+            label = random.choices(list(self.probabilities.keys()), list(self.probabilities.values()))[0]
             polygon = random.choice([poly for poly in self.polygons if poly["category_id"] == label])
             coordinates = np.array(polygon['segmentation']).reshape((-1, 2))
             minx, miny, xrange, yrange = polygon["bbox"]
@@ -101,8 +104,14 @@ class SlideContainer:
                     xmin = pnt.x // self.down_factor - self.width / 2
                     ymin = pnt.y // self.down_factor - self.height / 2
                     found = True
+                if self.dataset_type == 'classification' and found:
+                    if np.unique(self.get_y_patch(xmin, ymin))[
+                        np.argmax(np.unique(self.get_y_patch(xmin, ymin), return_counts=True)[1])] != self.label_dict[
+                        inv_map[label]] or np.sum(self.get_y_patch(xmin, ymin) == self.label_dict[inv_map[label]]) < (
+                            self.width * self.height * 0.9):
+                        found = False
         return xmin, ymin
 
 
     def __str__(self):
-        return str(self.path)
+        return str(self.file)
