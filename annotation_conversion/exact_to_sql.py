@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 import openslide
+import urllib3
 
 from exact_sync.v1.api.annotations_api import AnnotationsApi
 from exact_sync.v1.api.images_api import ImagesApi
@@ -42,7 +43,7 @@ def convert(slide_path, configuration):
 
     df = pd.DataFrame(rows, columns=["file_name", "polygon", "cat"])
     database = Database()
-    database.create("canine_cutaneous_tumors.sqlite")
+    database.create("CATCH.sqlite")
     database.insertAnnotator('Coco')
     database.insertClass('Bone')
     database.insertClass('Cartilage')
@@ -85,10 +86,12 @@ def convert(slide_path, configuration):
 
 if __name__ == '__main__':
     # Define slide directory
-    target_folder = Path("E:/Slides/Canine Skin Tumors")
+    target_folder = Path("D:/Slides/Canine Skin Tumors")
 
     # EXACT configuration
     configuration = Configuration()
+    configuration.verify_ssl = False
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     configuration.username = 'exact'
     configuration.password = 'exact'
     configuration.host = "http://localhost:8000"

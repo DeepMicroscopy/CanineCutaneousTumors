@@ -24,7 +24,7 @@ def convert(slide_path, annotation_path):
 
     df = pd.DataFrame(rows, columns=["file_name", "polygon", "cat"])
     database = Database()
-    database.create("canine_cutaneous_tumors.sqlite")
+    database.create("CATCH.sqlite")
     database.insertAnnotator('Coco')
     database.insertClass('Bone')
     database.insertClass('Cartilage')
@@ -67,10 +67,10 @@ def convert(slide_path, annotation_path):
 
 if __name__ == '__main__':
     # Define slide directory
-    target_folder = Path("E:/Slides/Canine Skin Tumors")
+    target_folder = Path("D:/Slides/Canine Skin Tumors")
 
     # Define annotation path
-    annotation_file = "canine_cutaneous_tumors.json"
+    annotation_file = "CATCH.json"
 
     # Conversion
     convert(target_folder, annotation_file)

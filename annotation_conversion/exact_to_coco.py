@@ -3,6 +3,7 @@ import numpy as np
 from shapely.geometry import Polygon
 import json
 import datetime
+import urllib3
 
 from exact_sync.v1.api.annotations_api import AnnotationsApi
 from exact_sync.v1.api.images_api import ImagesApi
@@ -196,13 +197,15 @@ def convert(configuration):
     image_list, anno_list = polys_from_exact(configuration)
     json_dict["images"] = image_list
     json_dict["annotations"] = anno_list
-    with open('canine_cutaneous_tumors.json', 'w') as f:
+    with open('CATCH.json', 'w') as f:
         json.dump(json_dict, f)
 
 
 if __name__ == '__main__':
     # EXACT configuration
     configuration = Configuration()
+    configuration.verify_ssl = False
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     configuration.username = 'exact'
     configuration.password = 'exact'
     configuration.host = "http://localhost:8000"

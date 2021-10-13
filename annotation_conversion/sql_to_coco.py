@@ -180,13 +180,13 @@ def convert(annotation_path):
     image_list, anno_list = polys_from_sql(database)
     json_dict["images"] = image_list
     json_dict["annotations"] = anno_list
-    with open('canine_cutaneous_tumors.json', 'w') as f:
+    with open('CATCH.json', 'w') as f:
         json.dump(json_dict, f)
 
 
 if __name__ == '__main__':
     # Define annotation path
-    annotation_file = "canine_cutaneous_tumors.sqlite"
+    annotation_file = "CATCH.sqlite"
 
     # Conversion
     convert(annotation_file)

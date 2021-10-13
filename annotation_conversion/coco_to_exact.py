@@ -38,13 +38,13 @@ def convert(annotation_path):
             row = "{0}|{1}|".format(slide, label) + poly_dict + "\n"
             result.append(row)
     if len(result) > 0:
-        with open('canine_cutaneous_tumors.txt', 'w') as f:
+        with open('CATCH.txt', 'w') as f:
             f.writelines(result)
 
 
 if __name__ == '__main__':
     # Define annotation path
-    annotation_file = "canine_cutaneous_tumors.json"
+    annotation_file = "CATCH.json"
 
     # Conversion
     convert(annotation_file)
