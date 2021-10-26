@@ -10,11 +10,11 @@ from tqdm import tqdm
 def create_header():
     json_dict = {}
     json_dict["info"] = {
-        "description": 'Pan-Tumor Whole Slide Image Dataset for Canine Skin Tumor Segmentation and Classification',
+        "description": 'Pan-Tumor Canine CuTaneous Cancer Histology (CATCH) Dataset',
         "url": "",
         "version": '1.0',
         "year": 2021,
-        "contributor": 'Frauke Wilm, Marco Fragoso, Christian Marzahl, Christof Bertram, Robert Klopfleisch, Andreas Maier, Katharina Breininger, Marc Aubreville',
+        "contributor": 'Frauke Wilm, Marco Fragoso, Christian Marzahl, Jingna Qiu, Christof Bertram, Robert Klopfleisch, Andreas Maier, Katharina Breininger, Marc Aubreville',
         "date_created": datetime.datetime.utcnow().isoformat(' ')
     }
     json_dict["licenses"] = [{
