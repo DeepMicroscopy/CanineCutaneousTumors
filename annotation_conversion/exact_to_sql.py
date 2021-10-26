@@ -86,7 +86,7 @@ def convert(slide_path, configuration):
 
 if __name__ == '__main__':
     # Define slide directory
-    target_folder = Path("D:/Slides/Canine Skin Tumors")
+    target_folder = Path("../slides")
 
     # EXACT configuration
     configuration = Configuration()
