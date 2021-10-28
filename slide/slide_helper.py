@@ -52,6 +52,7 @@ class SlideItemList(ItemList):
         else:
             return self.get(*idxs)
 
+
 class SlideImageItemList(SlideItemList):
     pass
 
@@ -78,7 +79,6 @@ class SlideSegmentationLabelList(ImageList, SlideImageItemList):
         self.copy_new.append('classes')
         self.classes = classes
 
-
     def get(self, i, x: int, y: int):
         fn = self.items[i]
         res = self.open(fn, x, y)
@@ -93,3 +93,19 @@ class SlideSegmentationLabelList(ImageList, SlideImageItemList):
     
     def reconstruct(self, t:Tensor):
         return ImageSegment(t)
+
+
+class SlideClassificationLabelList(CategoryList):
+    _processor = CategoryProcessor
+
+    def __init__(self, items: Iterator, classes: Collection = None, label_delim: str = None, **kwargs):
+        super().__init__(items, classes=classes, **kwargs)
+        self.copy_new.append('classes')
+        self.classes = classes
+
+    def get(self, i, x: int, y: int):
+        o = self.items[i]
+        fn = self.x.items[i]
+        res = fn.get_y_patch(x, y)
+        dominant_label = np.unique(res)[np.argmax(np.unique(res, return_counts=True)[1])]
+        return Category(LongTensor([dominant_label]), self.classes[dominant_label])
