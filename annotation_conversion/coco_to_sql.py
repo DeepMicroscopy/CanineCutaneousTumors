@@ -67,7 +67,7 @@ def convert(slide_path, annotation_path):
 
 if __name__ == '__main__':
     # Define slide directory
-    target_folder = Path("../slides")
+    target_folder = Path("../catch")
 
     # Define annotation path
     annotation_file = "CATCH.json"
