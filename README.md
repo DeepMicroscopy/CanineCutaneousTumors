@@ -31,7 +31,7 @@ We provide two [SlideRunner](https://github.com/DeepPathology/SlideRunner) PlugI
 </p>
 
 
-## Pre-trained models
+## Pre-trained Models
 We provide two pre-trained models for patch segmentation and classification. These can be found in the 
 [models](models) folder. 
 <!-- A detailed evaluation of these models can be found in our ScientificData paper:   
