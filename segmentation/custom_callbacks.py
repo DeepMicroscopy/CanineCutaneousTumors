@@ -1,6 +1,5 @@
 from fastai.vision import *
 from fastai.callbacks import TrackerCallback
-from fastai.callbacks.mixup import MixUpLoss
 
 class UpdateProbabilitiesCallback(TrackerCallback):
     def __init__(self, learn:Learner, trainslides):
