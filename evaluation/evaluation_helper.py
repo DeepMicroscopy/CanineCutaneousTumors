@@ -54,7 +54,7 @@ def classification_inference(slide,store, patch_size,level,batch_size, learner, 
     if indices != None:
         indices = torch.unique(indices//slide.level_downsamples[level]//patch_size, dim=0).cpu().flip(dims=[1])*patch_size
     else:
-        indices = np.indices((int(shape[0] // patch_size),int(shape[1]//patch_size))).reshape(2,-1).T
+        indices = np.indices((int(shape[0] // patch_size),int(shape[1]//patch_size))).reshape(2,-1).T*patch_size
     classification_results = store.create_dataset("classification", (int(shape[1] // patch_size) , int(shape[0] // patch_size)), compression="gzip")
 
     with torch.no_grad():
