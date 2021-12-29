@@ -94,7 +94,10 @@ class SlideContainer:
         while not found:
             iter = 0
             label = random.choices(list(self.probabilities.keys()), list(self.probabilities.values()))[0]
-            polygon = random.choice([poly for poly in self.polygons if poly["category_id"] == label])
+            polygons = [poly for poly in self.polygons if poly["category_id"] == label]
+            polygons_area = [poly["area"] for poly in polygons]
+            polygons_area = np.array(polygons_area) / sum(polygons_area)
+            polygon = random.choices(polygons, polygons_area)[0]
             coordinates = np.array(polygon['segmentation']).reshape((-1, 2))
             minx, miny, xrange, yrange = polygon["bbox"]
             while iter < 25 and not found:
