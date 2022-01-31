@@ -1,7 +1,7 @@
 # CanineCutaneousTumors
 
 This repository contains code examples for working with our publicly available dataset on microscopicwhole slide images 
-(WSIs) of canine cutaneous tumors. The dataset can be downloaded [here](https://wiki.cancerimagingarchive.net/display/Public/CAnine+CuTaneous+Cancer+Histology+%28CATCH%29+Dataset) via the website of The Cancer Imaging Atlas.
+(WSIs) of canine cutaneous tumors. The dataset can be downloaded [here](https://wiki.cancerimagingarchive.net/display/Public/CAnine+CuTaneous+Cancer+Histology+%28CATCH%29+Dataset) via the website of The Cancer Imaging Archive.
 
 <p float="left">
   <img src="canine_cutaneous.JPG" width="500" alt="Dataset"/>
